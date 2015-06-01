@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <label for="email">Email</label>
+        <input type="text" type="email" id="email" name="email" remote-validator-url="/validate" remote-validator-validkey="valid">
+    </form>
+    <script src="./RemoteValidator.js"></script>
+    <script>
+        var email = document.getElementById('email');
+
+        RemoteValidator.init(email);
+        email.addEventListener('invalid', function(e) {
+            e.target.classList.add('invalid');
+        });
+    </script>
+</body>
+</html>

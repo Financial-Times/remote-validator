@@ -1,0 +1,15 @@
+{
+  "name": "remote-validator",
+  "version": "1.0.0",
+  "description": "Validate a form element's value against a remote service",
+  "main": "src/RemoteValidator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.svc.ft.com:8080/scm/mfe/remote-validator.git"
+  },
+  "author": " <omapplications@ft.com>",
+  "license": "ISC"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "remote-validator",
+  "version": "1.0.0",
+  "authors": [
+    "<omapplications@ft.com>"
+  ],
+  "description": "Validatea form element's value against a remote service",
+  "main": "src/RemoteValidator.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

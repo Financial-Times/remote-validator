@@ -37,7 +37,7 @@
             return triggerInvalidEvent(this.el);
         }
 
-        if (this.validKey && data[this.validKey].toString() !== this.validValue) {
+        if (this.validKey && data[this.validKey].toString() !== this.validValue.toString()) {
             this.el.setCustomValidity(this.message);
             return triggerInvalidEvent(this.el);
         }

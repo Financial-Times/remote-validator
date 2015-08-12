@@ -20,6 +20,8 @@
     function handleResponse(xhr) {
         var data;
 
+        this.el.removeAttribute('aria-busy');
+
         if (xhr.status >= 500) {
             // server error, do nothing
             return;
@@ -37,7 +39,7 @@
             return triggerInvalidEvent(this.el);
         }
 
-        if (this.validKey && data[this.validKey].toString() !== this.validValue) {
+        if (this.validKey && data[this.validKey].toString() !== this.validValue.toString()) {
             this.el.setCustomValidity(this.message);
             return triggerInvalidEvent(this.el);
         }
@@ -50,6 +52,8 @@
         if (!this.el.value) {
             return;
         }
+
+        this.el.setAttribute('aria-busy', 'true');
 
         var xhr = new XMLHttpRequest();
         var data = encodeURIComponent(this.el.name) + '=' + encodeURIComponent(this.el.value);

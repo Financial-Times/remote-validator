@@ -100,6 +100,13 @@
         this.validValue = config['valid-value'] || 'true';
         this.message = config.message || 'Remote validation error';
 
+        this.abort = function() {
+            if (this.xhr !== undefined) {
+                this.el.removeAttribute('aria-busy');
+                this.xhr.abort();
+            }
+        }
+
         this.el.addEventListener('change', validate.bind(this));
     }
 

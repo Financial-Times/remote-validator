@@ -20,6 +20,8 @@
     function handleResponse(xhr) {
         var data;
 
+        this.el.removeAttribute('aria-busy');
+
         if (xhr.status >= 500) {
             // server error, do nothing
             return;
@@ -37,7 +39,7 @@
             return triggerInvalidEvent(this.el);
         }
 
-        if (this.validKey && data[this.validKey].toString() !== this.validValue) {
+        if (this.validKey && data[this.validKey].toString() !== this.validValue.toString()) {
             this.el.setCustomValidity(this.message);
             return triggerInvalidEvent(this.el);
         }
@@ -51,13 +53,19 @@
             return;
         }
 
-        var xhr = new XMLHttpRequest();
+        this.el.setAttribute('aria-busy', 'true');
+
+        if (this.xhr !== undefined) {
+            this.xhr.abort();
+        }
+
+        this.xhr = new XMLHttpRequest();
         var data = encodeURIComponent(this.el.name) + '=' + encodeURIComponent(this.el.value);
         var url = this.url + '?' + data;
 
-        xhr.addEventListener('load', handleResponse.bind(this, xhr));
-        xhr.open('GET', url);
-        xhr.send();
+        this.xhr.addEventListener('load', handleResponse.bind(this, this.xhr));
+        this.xhr.open('GET', url);
+        this.xhr.send();
     }
 
     function compile(el) {

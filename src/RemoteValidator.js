@@ -22,7 +22,7 @@
 
         this.el.removeAttribute('aria-busy');
 
-        if (xhr.status >= 500) {
+        if (xhr.status >= 500 || xhr.status === 429) { //too many requests
             // server error, do nothing
             return;
         }

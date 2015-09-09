@@ -20,7 +20,9 @@
     function handleResponse(xhr) {
         var data;
 
-        if (xhr.status >= 500) {
+        this.el.removeAttribute('aria-busy');
+
+        if (xhr.status >= 500 || xhr.status === 429) { //too many requests
             // server error, do nothing
             return;
         }
@@ -37,7 +39,7 @@
             return triggerInvalidEvent(this.el);
         }
 
-        if (this.validKey && data[this.validKey].toString() !== this.validValue) {
+        if (this.validKey && data[this.validKey].toString() !== this.validValue.toString()) {
             this.el.setCustomValidity(this.message);
             return triggerInvalidEvent(this.el);
         }
@@ -51,13 +53,19 @@
             return;
         }
 
-        var xhr = new XMLHttpRequest();
+        this.el.setAttribute('aria-busy', 'true');
+
+        if (this.xhr !== undefined) {
+            this.xhr.abort();
+        }
+
+        this.xhr = new XMLHttpRequest();
         var data = encodeURIComponent(this.el.name) + '=' + encodeURIComponent(this.el.value);
         var url = this.url + '?' + data;
 
-        xhr.addEventListener('load', handleResponse.bind(this, xhr));
-        xhr.open('GET', url);
-        xhr.send();
+        this.xhr.addEventListener('load', handleResponse.bind(this, this.xhr));
+        this.xhr.open('GET', url);
+        this.xhr.send();
     }
 
     function compile(el) {
@@ -91,6 +99,13 @@
         this.validKey = config['valid-key'] || 'valid';
         this.validValue = config['valid-value'] || 'true';
         this.message = config.message || 'Remote validation error';
+
+        this.abort = function() {
+            if (this.xhr !== undefined) {
+                this.el.removeAttribute('aria-busy');
+                this.xhr.abort();
+            }
+        }
 
         this.el.addEventListener('change', validate.bind(this));
     }

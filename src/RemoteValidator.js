@@ -105,7 +105,7 @@
                 this.el.removeAttribute('aria-busy');
                 this.xhr.abort();
             }
-        }
+        };
 
         this.el.addEventListener('change', validate.bind(this));
     }
@@ -137,4 +137,4 @@
     } else {
         root.RemoteValidator = RemoteValidator;
     }
-})(this);
+}(this));

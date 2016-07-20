@@ -20,6 +20,10 @@
     function handleResponse(xhr) {
         var data;
 
+        if (xhr.readyState !== 4) {
+            return;
+        }
+
         this.el.removeAttribute('aria-busy');
 
         if (xhr.status >= 500 || xhr.status === 429) { //too many requests
@@ -63,7 +67,9 @@
         var data = encodeURIComponent(this.el.name) + '=' + encodeURIComponent(this.el.value);
         var url = this.url + '?' + data;
 
-        this.xhr.addEventListener('load', handleResponse.bind(this, this.xhr));
+        // Sinon XHR doesn't support load event
+        // this.xhr.addEventListener('load', handleResponse.bind(this, this.xhr));
+        this.xhr.onreadystatechange = handleResponse.bind(this, this.xhr);
         this.xhr.open('GET', url);
         this.xhr.send();
     }

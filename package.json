@@ -4,12 +4,26 @@
   "description": "Validate a form element's value against a remote service",
   "main": "src/RemoteValidator.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start --single-run"
   },
   "repository": {
     "type": "git",
     "url": "http://git.svc.ft.com:8080/scm/mfe/remote-validator.git"
   },
   "author": " <omapplications@ft.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "karma": "^1.1.1",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-fixture": "^0.2.6",
+    "karma-html2js-preprocessor": "^1.0.0",
+    "karma-mocha": "^1.1.1",
+    "karma-phantomjs-launcher": "^1.0.1",
+    "karma-sinon": "^1.0.5",
+    "mocha": "^2.5.3",
+    "phantomjs": "^2.1.7",
+    "sinon": "^1.17.4"
+  }
 }

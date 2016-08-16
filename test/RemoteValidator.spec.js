@@ -1,3 +1,4 @@
+/* global expect, fixture, sinon */
 describe('RemoteValidator', function() {
     before(function() {
         fixture.setBase('test/fixtures');
@@ -5,7 +6,7 @@ describe('RemoteValidator', function() {
 
     beforeEach(function() {
         fixture.load('fixture.html');
-        window.RemoteValidator.init(fixture.el);
+        this.remoteValidator = window.RemoteValidator.init(fixture.el)[0];
         this.server = sinon.fakeServer.create();
         this.server.respondImmediately = true;
     });
@@ -92,6 +93,25 @@ describe('RemoteValidator', function() {
         input.value = 'bar';
         input.dispatchEvent(new Event('change'));
         // the Sinon server will respond synchronously
+        expect(input.validationMessage).to.equal('');
+        done();
+    });
+
+    it('should do nothing if the request is aborted', function(done) {
+        var input = document.getElementById('test-input');
+
+        this.server.respondImmediately = false;
+        this.server.respondWith(new RegExp(input.getAttribute('remote-validator-url')), [
+            200,
+            { 'Content-Type': 'application/json' },
+            '{ "valid": false }'
+        ]);
+
+        input.value = 'bar';
+        input.dispatchEvent(new Event('change'));
+
+        this.remoteValidator.abort();
+
         expect(input.validationMessage).to.equal('');
         done();
     });

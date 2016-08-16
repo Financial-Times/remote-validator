@@ -26,8 +26,11 @@
 
         this.el.removeAttribute('aria-busy');
 
-        if (xhr.status >= 500 || xhr.status === 429) { //too many requests
-            // server error, do nothing
+        // 500: server error
+        // 429: too many requests
+        // 0: xhr aborted
+        if (xhr.status >= 500 || xhr.status === 429 || xhr.status === 0) {
+            // do nothing
             return;
         }
 
